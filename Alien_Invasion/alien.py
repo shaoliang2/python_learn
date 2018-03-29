@@ -33,6 +33,8 @@ class Alien(Sprite):
             return True
         elif self.rect.left <= 0:
             return True
+        elif self.rect.y > 0:
+            print("???")
         
     def update(self):
         #向左或右移动外星人

@@ -51,9 +51,13 @@ def update_bullets(ai_settings,screen,ship,aliens,bullets):
         if bullet.rect.bottom<=0:
             bullets.remove(bullet)
 
+    check_bullet_alien_collisions(ai_settings,screen,ship,aliens,bullets)
+
+
+def check_bullet_alien_collisions(ai_settings,screen,ship,aliens,bullets):
+    #删除发生碰撞的子弹和外星人
     #检查是否击中外星人
     collisions=pygame.sprite.groupcollide(bullets,aliens,True,True)
-
     if len(aliens)==0:
         bullets.empty()
         create_fleet(ai_settings,screen,ship,aliens)
@@ -109,14 +113,10 @@ def change_fleet_direction(ai_settings,aliens):
         alien.rect.y+=ai_settings.fleet_drop_speed
     ai_settings.fleet_direction *=-1
 
-def update_aliens(ai_settings,aliens):
+def update_aliens(ai_settings,ship,aliens):
     check_fleet_edges(ai_settings,aliens)
     aliens.update()
-'''
-    #创建第一行外星人
-    for alien_number in range(number_aliens_x):
-        #创建一个外星人加入当前行
-        create_alien(ai_settings,screen,aliens,alien_number)
-        #alien=Alien(ai_settings,screen)
-'''
-        
+
+    #检测外星人和飞船之间的碰撞
+    if pygame.sprite.spritecollideany(ship,aliens):
+        print("Ship hit!!!")
